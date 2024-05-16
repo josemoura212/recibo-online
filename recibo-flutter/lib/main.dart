@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:recibo/src/core/ui/ui_config.dart';
 import 'package:recibo/src/form/form_view.dart';
 
 void main() {
@@ -12,12 +12,8 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const FormView(),
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.from(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        textTheme: GoogleFonts.radioCanadaTextTheme(),
-      ),
-    );
+        home: const FormView(),
+        debugShowCheckedModeBanner: false,
+        theme: UiConfig.themeData);
   }
 }
