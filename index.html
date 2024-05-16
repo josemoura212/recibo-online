@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rebico de Aluguel</title>
+    <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+</head>
+
+<body>
+    <section class="section">
+        <div class="container">
+            <div class="columns reverse-column">
+                <div class="column">
+                    <div class="box">
+                        <h1 class="title">Recibo de Aluguel</h1>
+                        <form action="/view.html" method="post">
+                            <div class="field">
+                                <div class="columns">
+                                    <div class="column is-4"><label for="valor" class="label">Valor:</label>
+                                        <div class="control"><input class="input is-primary" name="valor" autofocus=""
+                                                required="" id="valor" placeholder="00,00"></div>
+                                        <p class="help">Valor recebido</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="columns">
+                                    <div class="column"><label for="mesReferencia" class="label">Mês de ref.:</label>
+                                        <div class="control">
+                                            <div class="select"><select name="mesReferencia">
+                                                    <option value="janeiro">
+                                                        janeiro</option>
+                                                    <option value="fevereiro">
+                                                        fevereiro</option>
+                                                    <option value="março">
+                                                        março</option>
+                                                    <option value="abril">
+                                                        abril</option>
+                                                    <option value="maio" selected="">
+                                                        maio</option>
+                                                    <option value="junho">
+                                                        junho</option>
+                                                    <option value="julho">
+                                                        julho</option>
+                                                    <option value="agosto">
+                                                        agosto</option>
+                                                    <option value="setembro">
+                                                        setembro</option>
+                                                    <option value="outubro">
+                                                        outubro</option>
+                                                    <option value="novembro">
+                                                        novembro</option>
+                                                    <option value="dezembro">
+                                                        dezembro</option>
+                                                </select></div>
+                                        </div>
+                                    </div>
+                                    <div class="column"><label for="anoReferencia" class="label">Ano:</label>
+                                        <div class="control"><input class="input" name="anoReferencia" value="2024"
+                                                required="" id="anoReferencia"></div>
+                                    </div>
+                                    <div class="column"><label for="recorencia" class="label">Recorencia:</label>
+                                        <div class="control"><input class="input" name="recorencia" value="1"
+                                                required="" id="recorencia"></div>
+                                    </div>
+                                    <div class="column"></div>
+                                    <div class="column"></div>
+                                    <div class="column"></div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="columns">
+                                    <div class="column">
+                                        <div class="field"><label for="inquilino" class="label">Locatário(a):</label>
+                                            <div class="control"><input class="input" name="inquilino" required=""
+                                                    id="inquilino"></div>
+                                        </div>
+                                    </div>
+                                    <div class="column is-4">
+                                        <div class="field"><label for="cpfCnpjInquilino" class="label">CPF ou CNPJ
+                                                <small>(opcional)</small>:</label>
+                                            <div class="control"><input class="input cpfCnpjMask"
+                                                    name="cpfCnpjInquilino" id="cpfCnpjInquilino"></div>
+                                            <p class="help">Somente números</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="columns">
+                                    <div class="column">
+                                        <div class="field"><label for="proprietario" class="label">Locador(a):</label>
+                                            <div class="control"><input class="input" name="proprietario" required=""
+                                                    id="proprietario"></div>
+                                        </div>
+                                    </div>
+                                    <div class="column is-4">
+                                        <div class="field"><label for="cpfCnpjProprietario" class="label">CPF ou CNPJ
+                                                <small>(opcional)</small>:</label>
+                                            <div class="control"><input class="input cpfCnpjMask"
+                                                    name="cpfCnpjProprietario" id="cpfCnpjProprietario"></div>
+                                            <p class="help">Somente números</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <h2 class="title is-size-5">ENDEREÇO DO IMÓVEL LOCADO:</h2>
+                            <hr>
+                            <div class="field">
+                                <div class="columns">
+                                    <div class="column">
+                                        <div class="field"><label for="rua" class="label">Rua:</label>
+                                            <div class="control"><input class="input" id="rua" name="rua" required="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="column is-4">
+                                        <div class="field"><label for="pontoReferencia" class="label">Complemento:
+                                                (opcional)</label>
+                                            <div class="control"><input class="input" id="pontoReferencia"
+                                                    name="pontoReferencia"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="columns">
+                                    <div class="column is-2">
+                                        <div class="field"><label for="numero" class="label">Número:</label>
+                                            <div class="control"><input class="input" name="numero" id="numero"
+                                                    required="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="column"><label for="bairro" class="label">Bairro:</label>
+                                        <div class="control"><input class="input" name="bairro" id="bairro" required="">
+                                        </div>
+                                    </div>
+                                    <div class="column"><label for="tipoImovel" class="label">Tipo Imóvel:</label>
+                                        <div class="control"><input class="input" required="" name="tipoImovel"
+                                                id="tipoImovel"></div>
+                                        <p class="help">Ex.: Residencial, Comercial, Rural</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="columns">
+                                    <div class="column is-6">
+                                        <div class="field"><label for="cidade" class="label">Cidade:</label>
+                                            <div class="control"><input class="input" id="cidade" name="cidade"
+                                                    required="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div class="field"><label for="estado" class="label">Estado:</label>
+                                            <div class="control">
+                                                <div class="select"><select name="estado" required="">
+                                                        <option value="">Selecione o Estado...</option>
+                                                        <option value="AC">Acre</option>
+                                                        <option value="AL">Alagoas</option>
+                                                        <option value="AP">Amapá</option>
+                                                        <option value="AM">Amazonas</option>
+                                                        <option value="BA">Bahia</option>
+                                                        <option value="CE">Ceará</option>
+                                                        <option value="DF">Distrito Federal</option>
+                                                        <option value="ES">Espírito Santo</option>
+                                                        <option value="GO">Goiás</option>
+                                                        <option value="MA">Maranhão</option>
+                                                        <option value="MT">Mato Grosso</option>
+                                                        <option value="MS">Mato Grosso do Sul</option>
+                                                        <option value="MG">Minas Gerais</option>
+                                                        <option value="PA">Pará</option>
+                                                        <option value="PB">Paraíba</option>
+                                                        <option value="PR">Paraná</option>
+                                                        <option value="PE">Pernambuco</option>
+                                                        <option value="PI">Piauí</option>
+                                                        <option value="RJ">Rio de Janeiro</option>
+                                                        <option value="RN">Rio Grande do Norte</option>
+                                                        <option value="RS">Rio Grande do Sul</option>
+                                                        <option value="RO">Rondônia</option>
+                                                        <option value="RR">Roraima</option>
+                                                        <option value="SC">Santa Catarina</option>
+                                                        <option value="SP">São Paulo</option>
+                                                        <option value="SE">Sergipe</option>
+                                                        <option value="TO">Tocantins</option>
+                                                    </select></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div class="field"><label for="cep" class="label">CEP:</label>
+                                            <div class="control"><input class="input" name="cep" id="cep" required="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field"><label for="observacao" class="label">Observação: (opcional)</label>
+                                <div class="control"><textarea name="observacao" class="textarea" id="observacao"
+                                        cols="30" rows="2"></textarea></div>
+                            </div>
+                            <hr>
+                            <div class="field m-t-20"><label for="pagamento" class="label">Forma de Pagamento:</label>
+                                <div class="control"><label class="radio"><input type="radio" name="pagamento"
+                                            value="dinheiro" checked="">
+                                        Dinheiro</label>
+                                    <label class="radio"><input type="radio" name="pagamento" value="pix">
+                                        Pix</label>
+                                    <label class="radio"><input type="radio" name="pagamento" value="cheque">
+                                        Cheque</label>
+                                    <label class="radio"><input type="radio" name="pagamento" value="transferencia">
+                                        Transferência/Depósito</label>
+                                    <label class="radio"><input type="radio" name="pagamento" value="cartao">
+                                        Cartão de Crédito/Débito</label>
+                                </div>
+                            </div>
+                            <div class="field pixImput" style="display:none">
+                                <div class="columns">
+                                    <div class="column">
+                                        <div class="field"><label for="quemrecebeu" class="label">Quem recebeu?</label>
+                                            <div class="control"><input class="input" id="quemrecebeu"
+                                                    name="quemrecebeu">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div class="field"><label for="instituicao"
+                                                class="label">Instituição/Banco:</label>
+                                            <div class="control"><input class="input" id="instituicao"
+                                                    name="instituicao">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div class="field"><label for="pixchave" class="label">Chave:</label>
+                                            <div class="control"><input class="input" id="pixchave" name="pixchave">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field chequeImput" style="display:none">
+                                <div class="columns">
+                                    <div class="column">
+                                        <div class="field"><label for="numerocheque" class="label">Nº do Cheque:</label>
+                                            <div class="control"><input class="input" id="numerocheque"
+                                                    name="numerocheque">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div class="field"><label for="banco" class="label">Banco:</label>
+                                            <div class="control"><input class="input" id="banco" name="banco"></div>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div class="field"><label for="agencia" class="label">Agência:</label>
+                                            <div class="control"><input class="input" id="agencia" name="agencia"></div>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div class="field"><label class="label">Bom para...</label>
+                                            <div class="control"><input class="input inputDate" id="bompara"
+                                                    name="bompara" placeholder="00/00/0000"></div>
+                                            <p class="help">(opcional)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field transferenciaImput" style="display:none">
+                                <div class="columns">
+                                    <div class="column">
+                                        <div class="field"><label for="contaTransferencia" class="label">Conta:</label>
+                                            <div class="control"><input class="input" name="contaTransferencia"
+                                                    id="contaTransferencia"></div>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div class="field"><label for="agenciaTransferencia"
+                                                class="label">Agência:</label>
+                                            <div class="control"><input class="input" name="agenciaTransferencia"
+                                                    id="agenciaTransferencia"></div>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div class="field"><label for="dataTransferencia" class="label">Data:</label>
+                                            <div class="control"><input class="input inputDate" name="dataTransferencia"
+                                                    id="dataTransferencia" placeholder="00/00/0000"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="columns">
+                                    <div class="column">
+                                        <div class="field"><label for="bancoTransferencia" class="label">Banco:</label>
+                                            <div class="control"><input class="input" name="bancoTransferencia"
+                                                    id="bancoTransferencia"></div>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div class="field"><label for="favorecidoTransferencia"
+                                                class="label">Favorecido:</label>
+                                            <div class="control"><input class="input" name="favorecidoTransferencia"
+                                                    id="favorecidoTransferencia"></div>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div class="field"><label class="label">Nº do documento:</label>
+                                            <div class="control"><input class="input" name="documentoTransferencia"
+                                                    id="documentoTransferencia"></div>
+                                            <p class="help">(opcional)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="columns m-t-10">
+                                <div class="column is-3">
+                                    <div class="field"><label for="datapagamento" class="label">Data de emissão:</label>
+                                        <div class="control"><input class="input inputDate" name="datapagamento"
+                                                required="" id="datapagamento" value="11/05/2024"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field"><label for="duasvias" class="label">Duas vias?</label>
+                                <label class="checkbox"><input type="checkbox" name="duasvias" id="duasvias">
+                                    Sim</label>
+                            </div>
+                            <div class="field is-grouped m-t-20">
+                                <p class="control"><input type="hidden" name="gerarRecibo" value="gerarRecibo">
+                                    <button class="button is-link is-large is-focused">
+                                        <span class="icon is-medium"><svg xmlns="http://www.w3.org/2000/svg" width="32"
+                                                height="32" fill="#ffffff" viewBox="0 0 256 256">
+                                                <rect width="256" height="256" fill="none"></rect>
+                                                <path
+                                                    d="M200,224H56a8,8,0,0,1-8-8V40a8,8,0,0,1,8-8h96l56,56V216A8,8,0,0,1,200,224Z"
+                                                    fill="none" stroke="#ffffff" stroke-linecap="round"
+                                                    stroke-linejoin="round" stroke-width="16"></path>
+                                                <polyline points="152 32 152 88 208 88" fill="none" stroke="#ffffff"
+                                                    stroke-linecap="round" stroke-linejoin="round" stroke-width="16">
+                                                </polyline>
+                                                <line x1="96" y1="136" x2="160" y2="136" fill="none" stroke="#ffffff"
+                                                    stroke-linecap="round" stroke-linejoin="round" stroke-width="16">
+                                                </line>
+                                                <line x1="96" y1="168" x2="160" y2="168" fill="none" stroke="#ffffff"
+                                                    stroke-linecap="round" stroke-linejoin="round" stroke-width="16">
+                                                </line>
+                                            </svg></span><span>Gerar Recibo</span></button>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>
