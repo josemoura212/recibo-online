@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recibo/src/form/widgets/form_controller.dart';
+import 'package:recibo/src/form/widgets/selected_month_widget.dart';
+import 'package:recibo/src/form/widgets/selected_state_widget.dart';
 
 class FormView extends StatefulWidget {
   const FormView({super.key});
@@ -52,34 +54,8 @@ class _FormViewState extends State<FormView> with FormController {
                       ),
                     ),
                     const SizedBox(width: double.infinity),
-                    SizedBox(
-                      width: 150,
-                      child: DropdownMenu(
-                        initialSelection: selectedMonth,
-                        controller: monthEC,
-                        label: const Text(
-                          "Mês de Referência",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        dropdownMenuEntries: const [
-                          DropdownMenuEntry(value: 1, label: "Janeiro"),
-                          DropdownMenuEntry(value: 2, label: "Fevereiro"),
-                          DropdownMenuEntry(value: 3, label: "Março"),
-                          DropdownMenuEntry(value: 4, label: "Abril"),
-                          DropdownMenuEntry(value: 5, label: "Maio"),
-                          DropdownMenuEntry(value: 6, label: "Junho"),
-                          DropdownMenuEntry(value: 7, label: "Julho"),
-                          DropdownMenuEntry(value: 8, label: "Agosto"),
-                          DropdownMenuEntry(value: 9, label: "Setembro"),
-                          DropdownMenuEntry(value: 10, label: "Outubro"),
-                          DropdownMenuEntry(value: 11, label: "Novembro"),
-                          DropdownMenuEntry(value: 12, label: "Dezembro"),
-                        ],
-                      ),
-                    ),
+                    SelectedMonthWidget(
+                        monthEC: monthEC, selectedMonth: selectedMonth),
                     SizedBox(
                       width: 100,
                       child: TextFormField(
@@ -200,53 +176,7 @@ class _FormViewState extends State<FormView> with FormController {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      width: 200,
-                      child: DropdownMenu(
-                        initialSelection: 1,
-                        controller: stateEC,
-                        label: const Text(
-                          "Mês de Referência",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        dropdownMenuEntries: const [
-                          DropdownMenuEntry(value: 1, label: "Acre"),
-                          DropdownMenuEntry(value: 2, label: "Alagoas"),
-                          DropdownMenuEntry(value: 3, label: "Amapá"),
-                          DropdownMenuEntry(value: 4, label: "Amazonas"),
-                          DropdownMenuEntry(value: 5, label: "Bahia"),
-                          DropdownMenuEntry(value: 6, label: "Ceará"),
-                          DropdownMenuEntry(
-                              value: 7, label: "Distrito Federal"),
-                          DropdownMenuEntry(value: 8, label: "Espírito Santo"),
-                          DropdownMenuEntry(value: 9, label: "Goiás"),
-                          DropdownMenuEntry(value: 10, label: "Maranhão"),
-                          DropdownMenuEntry(value: 11, label: "Mato Grosso"),
-                          DropdownMenuEntry(
-                              value: 12, label: "Mato Grosso do Sul"),
-                          DropdownMenuEntry(value: 13, label: "Minas Gerais"),
-                          DropdownMenuEntry(value: 14, label: "Pará"),
-                          DropdownMenuEntry(value: 15, label: "Paraíba"),
-                          DropdownMenuEntry(value: 16, label: "Paraná"),
-                          DropdownMenuEntry(value: 17, label: "Pernambuco"),
-                          DropdownMenuEntry(value: 18, label: "Piauí"),
-                          DropdownMenuEntry(value: 19, label: "Rio de Janeiro"),
-                          DropdownMenuEntry(
-                              value: 20, label: "Rio Grande do Norte"),
-                          DropdownMenuEntry(
-                              value: 21, label: "Rio Grande do Sul"),
-                          DropdownMenuEntry(value: 22, label: "Rondônia"),
-                          DropdownMenuEntry(value: 23, label: "Roraima"),
-                          DropdownMenuEntry(value: 24, label: "Santa Catarina"),
-                          DropdownMenuEntry(value: 25, label: "São Paulo"),
-                          DropdownMenuEntry(value: 26, label: "Sergipe"),
-                          DropdownMenuEntry(value: 27, label: "Tocantins"),
-                        ],
-                      ),
-                    ),
+                    SelectedStateWidget(stateEC: stateEC),
                     SizedBox(
                       width: 150,
                       child: TextFormField(
@@ -331,9 +261,17 @@ class _FormViewState extends State<FormView> with FormController {
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size.fromHeight(60),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
                       onPressed: () {},
-                      child: const Text("Gerar Recibo"),
+                      child: const Text(
+                        "Gerar Recibo",
+                        style: TextStyle(
+                          fontSize: 24,
+                        ),
+                      ),
                     ),
                   ],
                 ),
