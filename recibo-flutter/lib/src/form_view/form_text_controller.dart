@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:recibo/src/model/form_model.dart';
+import 'package:recibo/src/model/payment_type.dart';
 
-mixin FormController {
+mixin FormTextController {
   final formKey = GlobalKey<FormState>();
   final valueEC = TextEditingController();
   final monthEC = TextEditingController();

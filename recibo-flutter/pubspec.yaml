@@ -16,6 +16,7 @@ dependencies:
   pdf: ^3.10.8
   universal_html: ^2.2.4
   signals_flutter: ^5.2.1
+  mask_text_input_formatter: ^2.9.0
 
 dev_dependencies:
   flutter_test:

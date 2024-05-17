@@ -1,9 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:recibo/src/core/helpers/helpers.dart';
 import 'package:recibo/src/form_view/form_view_controller.dart';
-import 'package:recibo/src/form_view/widgets/form_controller.dart';
+import 'package:recibo/src/form_view/form_text_controller.dart';
 import 'package:recibo/src/form_view/widgets/payment_form/payment_form.dart';
 import 'package:recibo/src/form_view/widgets/selected_month_widget.dart';
 import 'package:recibo/src/form_view/widgets/selected_state_widget.dart';
@@ -20,8 +21,23 @@ class FormView extends StatefulWidget {
   State<FormView> createState() => _FormViewState();
 }
 
-class _FormViewState extends State<FormView> with FormController {
+class _FormViewState extends State<FormView> with FormTextController {
   final controller = FormViewController();
+
+  @override
+  void initState() {
+    super.initState();
+    final date = DateTime.now();
+    dateEC.text =
+        "${date.day}/${date.month.toString().padLeft(2, "0")}/${date.year}";
+  }
+
+  @override
+  void dispose() {
+    formDispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final date = DateTime.now();
@@ -63,6 +79,13 @@ class _FormViewState extends State<FormView> with FormController {
                         child: TextFormField(
                           controller: valueEC,
                           onTapOutside: (event) => context.unFocus(),
+                          inputFormatters: [
+                            MaskTextInputFormatter(
+                              initialText: "000,00",
+                              mask: "###.###.###,##",
+                              filter: {"#": RegExp(r'[0-9]')},
+                            )
+                          ],
                           validator:
                               Validatorless.required("Campo obrigatório"),
                           decoration: const InputDecoration(
@@ -78,6 +101,12 @@ class _FormViewState extends State<FormView> with FormController {
                         child: TextFormField(
                           onTapOutside: (event) => context.unFocus(),
                           controller: yaerEC,
+                          inputFormatters: [
+                            MaskTextInputFormatter(
+                              mask: "####",
+                              filter: {"#": RegExp(r'[0-9]')},
+                            )
+                          ],
                           validator:
                               Validatorless.required("Campo obrigatório"),
                           decoration: const InputDecoration(
@@ -177,6 +206,12 @@ class _FormViewState extends State<FormView> with FormController {
                         child: TextFormField(
                           onTapOutside: (event) => context.unFocus(),
                           controller: numberEC,
+                          inputFormatters: [
+                            MaskTextInputFormatter(
+                              mask: "#####",
+                              filter: {"#": RegExp(r'[0-9]')},
+                            )
+                          ],
                           validator:
                               Validatorless.required("Campo obrigatório"),
                           decoration: const InputDecoration(
@@ -227,6 +262,12 @@ class _FormViewState extends State<FormView> with FormController {
                         child: TextFormField(
                           onTapOutside: (event) => context.unFocus(),
                           controller: zipCodeEC,
+                          inputFormatters: [
+                            MaskTextInputFormatter(
+                              mask: "#####-###",
+                              filter: {"#": RegExp(r'[0-9]')},
+                            )
+                          ],
                           validator:
                               Validatorless.required("Campo obrigatório"),
                           decoration: const InputDecoration(
@@ -264,6 +305,12 @@ class _FormViewState extends State<FormView> with FormController {
                         child: TextFormField(
                           onTapOutside: (event) => context.unFocus(),
                           controller: dateEC,
+                          inputFormatters: [
+                            MaskTextInputFormatter(
+                              mask: "##/##/####",
+                              filter: {"#": RegExp(r'[0-9]')},
+                            )
+                          ],
                           validator:
                               Validatorless.required("Campo obrigatório"),
                           decoration: const InputDecoration(
@@ -318,6 +365,8 @@ class _FormViewState extends State<FormView> with FormController {
                               ..setAttribute("download",
                                   "recibo ${date.day}-${date.month}-${date.year}.pdf")
                               ..click();
+
+                            formReset();
                           }
                         },
                         child: const Text(

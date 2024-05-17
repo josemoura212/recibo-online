@@ -15,6 +15,7 @@ class MainApp extends StatelessWidget {
       home: const FormView(),
       debugShowCheckedModeBanner: false,
       theme: UiConfig.themeData,
+      title: "Recibo de Aluguel",
     );
   }
 }

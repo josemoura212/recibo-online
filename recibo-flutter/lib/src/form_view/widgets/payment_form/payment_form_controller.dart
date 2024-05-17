@@ -6,12 +6,14 @@ class PaymentFormController {
   final _pix = signal<bool>(false);
   final _cheque = signal<bool>(false);
   final _deposito = signal<bool>(false);
+  final _cartao = signal<bool>(false);
   final _paymentType = signal<PaymentType>(PaymentType.dinheiro);
 
   bool get dinheiro => _dinheiro.value;
   bool get pix => _pix.value;
   bool get cheque => _cheque.value;
   bool get deposito => _deposito.value;
+  bool get cartao => _cartao.value;
   PaymentType get paymentType => _paymentType.value;
 
   void dinheiroChanged(bool value) {
@@ -44,5 +46,13 @@ class PaymentFormController {
     _cheque.value = false;
     _dinheiro.value = false;
     _paymentType.value = PaymentType.deposito;
+  }
+
+  void cartaoChanged(bool value) {
+    _cartao.value = value;
+    _pix.value = false;
+    _cheque.value = false;
+    _dinheiro.value = false;
+    _paymentType.value = PaymentType.cartao;
   }
 }
