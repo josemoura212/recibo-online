@@ -21,6 +21,7 @@ class PaymentFormController {
     _pix.value = false;
     _cheque.value = false;
     _deposito.value = false;
+    _cartao.value = false;
     _paymentType.value = PaymentType.dinheiro;
   }
 
@@ -29,6 +30,7 @@ class PaymentFormController {
     _dinheiro.value = false;
     _cheque.value = false;
     _deposito.value = false;
+    _cartao.value = false;
     _paymentType.value = PaymentType.pix;
   }
 
@@ -37,6 +39,7 @@ class PaymentFormController {
     _pix.value = false;
     _dinheiro.value = false;
     _deposito.value = false;
+    _cartao.value = false;
     _paymentType.value = PaymentType.cheque;
   }
 
@@ -45,6 +48,7 @@ class PaymentFormController {
     _pix.value = false;
     _cheque.value = false;
     _dinheiro.value = false;
+    _cartao.value = false;
     _paymentType.value = PaymentType.deposito;
   }
 
@@ -53,6 +57,7 @@ class PaymentFormController {
     _pix.value = false;
     _cheque.value = false;
     _dinheiro.value = false;
+    _deposito.value = false;
     _paymentType.value = PaymentType.cartao;
   }
 }

@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:recibo/src/form_view/widgets/payment_form/payment_form_controller.dart';
-import 'package:recibo/src/model/payment_type.dart';
 import 'package:signals_flutter/signals_flutter.dart';
 import 'package:validatorless/validatorless.dart';
 
+import 'package:recibo/src/form_view/widgets/payment_form/payment_form_controller.dart';
+import 'package:recibo/src/model/payment_type.dart';
+
 class PaymentForm extends StatefulWidget {
-  const PaymentForm({super.key});
+  final VoidCallback? onChanged;
+  const PaymentForm({
+    super.key,
+    this.onChanged,
+  });
 
   @override
   State<PaymentForm> createState() => _PaymentFormState();
@@ -19,6 +24,38 @@ class _PaymentFormState extends State<PaymentForm> with FormPaymentController {
   }
 
   final controller = PaymentFormController();
+
+  Payment getPayment() {
+    switch (controller.paymentType) {
+      case PaymentType.dinheiro:
+        return Dinheiro();
+      case PaymentType.pix:
+        return Pix(
+          pixKey: pixKeyEC.text,
+          received: pixRecivieEC.text,
+          bank: pixBankEC.text,
+        );
+      case PaymentType.cheque:
+        return Cheque(
+          numeroDoCheque: checkNumberEC.text,
+          banco: checkBankEC.text,
+          agencia: checkAgencyEC.text,
+          bomPara: checkGoodForEC.text,
+        );
+      case PaymentType.deposito:
+        return Deposito(
+          conta: depositAccountEC.text,
+          agencia: depositAgencyEC.text,
+          data: depositDateEC.text,
+          banco: depositBankEC.text,
+          favorecido: depositFavoredEC.text,
+          numeroDoDocumento: depositDocumentNumberEC.text,
+        );
+      case PaymentType.cartao:
+        return Cartao();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Watch(
@@ -88,14 +125,21 @@ class _Payment extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 200,
-      child: Row(
-        children: [
-          Checkbox(
-            value: value,
-            onChanged: onChanged,
-          ),
-          Center(child: Text(title)),
-        ],
+      child: InkWell(
+        borderRadius: BorderRadius.circular(4),
+        onTap: () {
+          onChanged?.call(!value);
+        },
+        child: Row(
+          children: [
+            Checkbox(
+              value: value,
+              onChanged: onChanged,
+              splashRadius: 0,
+            ),
+            Center(child: Text(title)),
+          ],
+        ),
       ),
     );
   }

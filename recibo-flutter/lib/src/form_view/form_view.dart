@@ -147,6 +147,7 @@ class _FormViewState extends State<FormView> with FormTextController {
                           ),
                         ),
                       ),
+                      const SizedBox(width: double.infinity),
                       SizedBox(
                         width: 450,
                         child: TextFormField(
@@ -348,13 +349,159 @@ class _FormViewState extends State<FormView> with FormTextController {
                           if (valid) {
                             final pdf = pw.Document();
 
-                            pdf.addPage(pw.Page(
+                            pdf.addPage(
+                              pw.Page(
                                 pageFormat: PdfPageFormat.a4,
                                 build: (pw.Context context) {
-                                  return pw.Center(
-                                    child: pw.Text("Recibo de Aluguel"),
+                                  return pw.Column(
+                                    children: [
+                                      pw.Align(
+                                        alignment: pw.Alignment.center,
+                                        child: pw.Text(
+                                          "Recibo de Aluguel",
+                                          style: pw.TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: pw.FontWeight.bold),
+                                        ),
+                                      ),
+                                      pw.SizedBox(height: 10),
+                                      pw.Row(
+                                        mainAxisAlignment:
+                                            pw.MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          pw.Column(
+                                            crossAxisAlignment:
+                                                pw.CrossAxisAlignment.start,
+                                            children: [
+                                              pw.Text(
+                                                "MÊS DE REFERÊNCIA",
+                                                style: const pw.TextStyle(
+                                                  fontSize: 14,
+                                                  color: PdfColors.grey,
+                                                ),
+                                              ),
+                                              pw.Text(
+                                                "${monthEC.text.toUpperCase()}/${yaerEC.text}",
+                                                style: pw.TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        pw.FontWeight.bold),
+                                              ),
+                                            ],
+                                          ),
+                                          pw.Column(
+                                            mainAxisAlignment:
+                                                pw.MainAxisAlignment.end,
+                                            children: [
+                                              pw.Text(
+                                                "VALOR EM R\$",
+                                                style: const pw.TextStyle(
+                                                  fontSize: 14,
+                                                  color: PdfColors.grey,
+                                                ),
+                                              ),
+                                              pw.Text(
+                                                valueEC.text,
+                                                style: pw.TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        pw.FontWeight.bold),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      pw.SizedBox(height: 20),
+                                      pw.Row(
+                                        mainAxisAlignment:
+                                            pw.MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          pw.Column(
+                                            crossAxisAlignment:
+                                                pw.CrossAxisAlignment.start,
+                                            children: [
+                                              pw.Text(
+                                                "Locatário(a):",
+                                                style: pw.TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        pw.FontWeight.bold),
+                                              ),
+                                              pw.Text(
+                                                tenantEC.text,
+                                                style: const pw.TextStyle(
+                                                  fontSize: 14,
+                                                  color: PdfColors.grey,
+                                                ),
+                                              ),
+                                              pw.Text(
+                                                "CPF ou CNPJ: ${documentTenantEC.text}",
+                                                style: const pw.TextStyle(
+                                                  fontSize: 14,
+                                                  color: PdfColors.grey,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          pw.Column(
+                                            crossAxisAlignment:
+                                                pw.CrossAxisAlignment.start,
+                                            children: [
+                                              pw.Text(
+                                                "Locador(a):",
+                                                style: pw.TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        pw.FontWeight.bold),
+                                              ),
+                                              pw.Text(
+                                                locatorEC.text,
+                                                style: const pw.TextStyle(
+                                                  fontSize: 14,
+                                                  color: PdfColors.grey,
+                                                ),
+                                              ),
+                                              pw.Text(
+                                                "CPF ou CNPJ: ${documentlocatortEC.text}",
+                                                style: const pw.TextStyle(
+                                                  fontSize: 14,
+                                                  color: PdfColors.grey,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      pw.SizedBox(height: 20),
+                                      pw.Column(
+                                        crossAxisAlignment:
+                                            pw.CrossAxisAlignment.start,
+                                        children: [
+                                          pw.Text(
+                                            "ENDEREÇO DO IMÓVEL LOCADO:",
+                                            style: pw.TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: pw.FontWeight.bold,
+                                            ),
+                                          ),
+                                          pw.SizedBox(height: 5),
+                                          pw.Text(
+                                            "${streetEC.text}, ${numberEC.text} (${complementEC.text}), -  ${neighborhoodEC.text} - ${cityEC.text} - ${stateEC.text} CEP: ${zipCodeEC.text}",
+                                            style: const pw.TextStyle(
+                                              fontSize: 14,
+                                              color: PdfColors.grey,
+                                            ),
+                                          ),
+                                          pw.SizedBox(height: 5),
+                                          pw.Divider(color: PdfColors.grey),
+                                          pw.SizedBox(height: 5),
+                                        ],
+                                      ),
+                                    ],
                                   );
-                                }));
+                                },
+                              ),
+                            );
 
                             var savedFile = await pdf.save();
                             List<int> fileInts = List.from(savedFile);
@@ -366,7 +513,7 @@ class _FormViewState extends State<FormView> with FormTextController {
                                   "recibo ${date.day}-${date.month}-${date.year}.pdf")
                               ..click();
 
-                            formReset();
+                            // formReset();
                           }
                         },
                         child: const Text(
