@@ -1,4 +1,4 @@
-import 'package:recibo/src/model/payment_type.dart';
+import 'payment_type.dart';
 
 class FormModel {
   int value;

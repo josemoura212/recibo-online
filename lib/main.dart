@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:recibo/src/core/ui/ui_config.dart';
-import 'package:recibo/src/form_view/form_view.dart';
+import 'src/core/ui/ui_config.dart';
+import 'src/form_view/form_view.dart';
 
 void main() {
   runApp(const MainApp());

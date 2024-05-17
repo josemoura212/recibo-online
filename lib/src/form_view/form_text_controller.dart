@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:recibo/src/model/form_model.dart';
-import 'package:recibo/src/model/payment_type.dart';
+import '../model/form_model.dart';
+import '../model/payment_type.dart';
 
 mixin FormTextController {
   final formKey = GlobalKey<FormState>();

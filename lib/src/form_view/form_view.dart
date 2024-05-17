@@ -2,12 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:recibo/src/core/helpers/helpers.dart';
-import 'package:recibo/src/form_view/form_view_controller.dart';
-import 'package:recibo/src/form_view/form_text_controller.dart';
-import 'package:recibo/src/form_view/widgets/payment_form/payment_form.dart';
-import 'package:recibo/src/form_view/widgets/selected_month_widget.dart';
-import 'package:recibo/src/form_view/widgets/selected_state_widget.dart';
+import '../core/helpers/helpers.dart';
+import 'form_view_controller.dart';
+import 'form_text_controller.dart';
+import 'widgets/payment_form/payment_form.dart';
+import 'widgets/selected_month_widget.dart';
+import 'widgets/selected_state_widget.dart';
 import 'package:signals_flutter/signals_flutter.dart';
 import 'package:validatorless/validatorless.dart';
 import 'package:pdf/pdf.dart';

@@ -1,4 +1,4 @@
-import 'package:recibo/src/model/payment_type.dart';
+import '../../../model/payment_type.dart';
 import 'package:signals_flutter/signals_flutter.dart';
 
 class PaymentFormController {
