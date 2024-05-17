@@ -15,7 +15,7 @@ class SelectedStateWidget extends StatelessWidget {
         initialSelection: 1,
         controller: stateEC,
         label: const Text(
-          "Mês de Referência",
+          "Estado:",
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w500,
