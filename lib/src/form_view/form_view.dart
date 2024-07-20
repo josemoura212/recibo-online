@@ -1,7 +1,23 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:recibo/src/core/helpers/formatter_coin.dart';
+import 'package:recibo/src/core/helpers/formatter_cpf_or_cpnj.dart';
+import 'package:recibo/src/form_view/widgets/auto_text_form_field_widget.dart';
+import 'package:recibo/src/services/pdf.dart';
+import 'package:recibo/src/text_controllers/city_controller.dart';
+import 'package:recibo/src/text_controllers/complement_controller.dart';
+import 'package:recibo/src/text_controllers/document_locator_controller.dart';
+import 'package:recibo/src/text_controllers/document_tenant_controller.dart';
+import 'package:recibo/src/text_controllers/locator_controller.dart';
+import 'package:recibo/src/text_controllers/months_recurrence_controller.dart';
+import 'package:recibo/src/text_controllers/neighborhood_controller.dart';
+import 'package:recibo/src/text_controllers/number_controller.dart';
+import 'package:recibo/src/text_controllers/property_type_controller.dart';
+import 'package:recibo/src/text_controllers/street_controller.dart';
+import 'package:recibo/src/text_controllers/tentant_controller.dart';
+import 'package:recibo/src/text_controllers/value_controller.dart';
+import 'package:recibo/src/text_controllers/year_controller.dart';
+import 'package:recibo/src/text_controllers/zip_code_controller.dart';
 import '../core/helpers/helpers.dart';
 import 'form_view_controller.dart';
 import 'form_text_controller.dart';
@@ -10,9 +26,6 @@ import 'widgets/selected_month_widget.dart';
 import 'widgets/selected_state_widget.dart';
 import 'package:signals_flutter/signals_flutter.dart';
 import 'package:validatorless/validatorless.dart';
-import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pw;
-import 'package:universal_html/html.dart' as html;
 
 class FormView extends StatefulWidget {
   const FormView({super.key});
@@ -30,12 +43,6 @@ class _FormViewState extends State<FormView> with FormTextController {
     final date = DateTime.now();
     dateEC.text =
         "${date.day}/${date.month.toString().padLeft(2, "0")}/${date.year}";
-  }
-
-  @override
-  void dispose() {
-    formDispose();
-    super.dispose();
   }
 
   @override
@@ -76,98 +83,68 @@ class _FormViewState extends State<FormView> with FormTextController {
                     children: [
                       SizedBox(
                         width: 200,
-                        child: TextFormField(
-                          controller: valueEC,
-                          onTapOutside: (event) => context.unFocus(),
-                          inputFormatters: [
-                            MaskTextInputFormatter(
-                              initialText: "000,00",
-                              mask: "###.###.###,##",
-                              filter: {"#": RegExp(r'[0-9]')},
-                            )
-                          ],
-                          validator:
-                              Validatorless.required("Campo obrigatório"),
-                          decoration: const InputDecoration(
-                            label: Text("Valor"),
-                          ),
+                        child: AutoTextFormFieldWidget(
+                          inputFormatters: [CustomTextInputFormatter()],
+                          label: "Valor",
+                          formController: ValueController(context),
+                          onChanged: (p0) => value = p0,
                         ),
                       ),
-                      const SizedBox(width: double.infinity),
+                      // const SizedBox(width: double.infinity),
                       SelectedMonthWidget(
-                          monthEC: monthEC, selectedMonth: selectedMonth),
+                        monthEC: monthEC,
+                        selectedMonth: selectedMonth,
+                      ),
                       SizedBox(
                         width: 100,
-                        child: TextFormField(
-                          onTapOutside: (event) => context.unFocus(),
-                          controller: yaerEC,
-                          inputFormatters: [
-                            MaskTextInputFormatter(
-                              mask: "####",
-                              filter: {"#": RegExp(r'[0-9]')},
-                            )
-                          ],
-                          validator:
-                              Validatorless.required("Campo obrigatório"),
-                          decoration: const InputDecoration(
-                            label: Text("Ano"),
-                          ),
+                        child: AutoTextFormFieldWidget(
+                          label: 'Ano',
+                          formController: YearController(context),
+                          onChanged: (p0) => year = p0,
                         ),
                       ),
                       SizedBox(
                         width: 150,
-                        child: TextFormField(
-                          onTapOutside: (event) => context.unFocus(),
-                          controller: monthsRecurrenceEC,
-                          decoration: const InputDecoration(
-                            label: Text("Meses de Recorrencia"),
-                          ),
+                        child: AutoTextFormFieldWidget(
+                          label: 'Meses de Recorrencia',
+                          formController: MonthsRecurrenceController(context),
+                          onChanged: (p0) => monthsRecurrence = p0,
                         ),
                       ),
                       const SizedBox(width: double.infinity),
                       SizedBox(
                         width: 450,
-                        child: TextFormField(
-                          onTapOutside: (event) => context.unFocus(),
-                          controller: tenantEC,
-                          validator:
-                              Validatorless.required("Campo obrigatório"),
-                          decoration: const InputDecoration(
-                            label: Text("Locatário(a):"),
-                          ),
+                        child: AutoTextFormFieldWidget(
+                          label: 'Locatário(a)',
+                          formController: TentantController(context),
+                          onChanged: (p0) => tenant = p0,
                         ),
                       ),
                       SizedBox(
                         width: 300,
-                        child: TextFormField(
-                          onTapOutside: (event) => context.unFocus(),
-                          controller: documentTenantEC,
-                          decoration: const InputDecoration(
-                            label: Text("CPF ou CNPJ (opcional):"),
-                          ),
+                        child: AutoTextFormFieldWidget(
+                          label: 'CPF ou CNPJ (opcional)',
+                          inputFormatters: [FormatterCpfOrCpnj()],
+                          formController: DocumentTenantController(context),
+                          onChanged: (p0) => documentTenant = p0,
                         ),
                       ),
                       const SizedBox(width: double.infinity),
                       SizedBox(
                         width: 450,
-                        child: TextFormField(
-                          onTapOutside: (event) => context.unFocus(),
-                          controller: locatorEC,
-                          validator:
-                              Validatorless.required("Campo obrigatório"),
-                          decoration: const InputDecoration(
-                            label: Text("Locador(a):"),
-                          ),
+                        child: AutoTextFormFieldWidget(
+                          label: 'Locador(a)',
+                          formController: LocatorController(context),
+                          onChanged: (p0) => locator = p0,
                         ),
                       ),
                       SizedBox(
                         width: 300,
-                        child: TextFormField(
-                          onTapOutside: (event) => context.unFocus(),
-                          controller: documentlocatortEC,
-                          decoration: const InputDecoration(
-                            label: Text("CPF ou CNPJ (opcional):"),
-                          ),
+                        child: AutoTextFormFieldWidget(
+                          formController: DocumentLocatorController(context),
+                          label: 'CPF ou CNPJ (opcional)',
+                          inputFormatters: [FormatterCpfOrCpnj()],
+                          onChanged: (p0) => documentLocator = p0,
                         ),
                       ),
                       const SizedBox(width: double.infinity),
@@ -180,102 +157,65 @@ class _FormViewState extends State<FormView> with FormTextController {
                       ),
                       const SizedBox(width: double.infinity),
                       SizedBox(
+                        width: 150,
+                        child: AutoTextFormFieldWidget(
+                          label: 'CEP',
+                          formController: ZipCodeController(context),
+                          onChanged: (p0) => zipCode = p0,
+                        ),
+                      ),
+                      SizedBox(
                         width: 450,
-                        child: TextFormField(
-                          onTapOutside: (event) => context.unFocus(),
-                          controller: streetEC,
-                          validator:
-                              Validatorless.required("Campo obrigatório"),
-                          decoration: const InputDecoration(
-                            label: Text("Rua"),
-                          ),
+                        child: AutoTextFormFieldWidget(
+                          label: 'Rua',
+                          formController: StreetController(context),
+                          onChanged: (p0) => street = p0,
                         ),
                       ),
                       SizedBox(
                         width: 300,
-                        child: TextFormField(
-                          onTapOutside: (event) => context.unFocus(),
-                          controller: complementEC,
-                          decoration: const InputDecoration(
-                            label: Text("Complemento: (opcional)"),
-                          ),
+                        child: AutoTextFormFieldWidget(
+                          label: 'Complemento',
+                          formController: ComplementController(context),
+                          onChanged: (p0) => complement = p0,
                         ),
                       ),
                       const SizedBox(width: double.infinity),
                       SizedBox(
                         width: 100,
-                        child: TextFormField(
-                          onTapOutside: (event) => context.unFocus(),
-                          controller: numberEC,
-                          inputFormatters: [
-                            MaskTextInputFormatter(
-                              mask: "#####",
-                              filter: {"#": RegExp(r'[0-9]')},
-                            )
-                          ],
-                          validator:
-                              Validatorless.required("Campo obrigatório"),
-                          decoration: const InputDecoration(
-                            label: Text("Numero"),
-                          ),
+                        child: AutoTextFormFieldWidget(
+                          label: 'Número',
+                          formController: NumberController(context),
+                          onChanged: (p0) => number = p0,
                         ),
                       ),
                       SizedBox(
                         width: 300,
-                        child: TextFormField(
-                          onTapOutside: (event) => context.unFocus(),
-                          controller: neighborhoodEC,
-                          validator:
-                              Validatorless.required("Campo obrigatório"),
-                          decoration: const InputDecoration(
-                            label: Text("Bairro"),
-                          ),
+                        child: AutoTextFormFieldWidget(
+                          label: 'Bairro',
+                          formController: NeighborhoodController(context),
+                          onChanged: (p0) => neighborhood = p0,
                         ),
                       ),
                       SizedBox(
                         width: 200,
-                        child: TextFormField(
-                          onTapOutside: (event) => context.unFocus(),
-                          controller: propertyTypeEC,
-                          validator:
-                              Validatorless.required("Campo obrigatório"),
-                          decoration: const InputDecoration(
-                            label: Text("Tipo Imóvel:"),
-                          ),
+                        child: AutoTextFormFieldWidget(
+                          label: 'Tipo de Imóvel',
+                          formController: PropertyTypeController(context),
+                          onChanged: (p0) => propertyType = p0,
                         ),
                       ),
                       const SizedBox(width: double.infinity),
                       SizedBox(
                         width: 250,
-                        child: TextFormField(
-                          onTapOutside: (event) => context.unFocus(),
-                          controller: cityEC,
-                          validator:
-                              Validatorless.required("Campo obrigatório"),
-                          decoration: const InputDecoration(
-                            label: Text("Cidade:"),
-                          ),
+                        child: AutoTextFormFieldWidget(
+                          label: 'Cidade',
+                          formController: CityController(context),
+                          onChanged: (p0) => city = p0,
                         ),
                       ),
                       SelectedStateWidget(stateEC: stateEC),
-                      SizedBox(
-                        width: 150,
-                        child: TextFormField(
-                          onTapOutside: (event) => context.unFocus(),
-                          controller: zipCodeEC,
-                          inputFormatters: [
-                            MaskTextInputFormatter(
-                              mask: "#####-###",
-                              filter: {"#": RegExp(r'[0-9]')},
-                            )
-                          ],
-                          validator:
-                              Validatorless.required("Campo obrigatório"),
-                          decoration: const InputDecoration(
-                            label: Text("CEP"),
-                          ),
-                        ),
-                      ),
+
                       SizedBox(
                         width: double.infinity,
                         child: TextFormField(
@@ -347,173 +287,27 @@ class _FormViewState extends State<FormView> with FormTextController {
                               formKey.currentState?.validate() ?? false;
 
                           if (valid) {
-                            final pdf = pw.Document();
-
-                            pdf.addPage(
-                              pw.Page(
-                                pageFormat: PdfPageFormat.a4,
-                                build: (pw.Context context) {
-                                  return pw.Column(
-                                    children: [
-                                      pw.Align(
-                                        alignment: pw.Alignment.center,
-                                        child: pw.Text(
-                                          "Recibo de Aluguel",
-                                          style: pw.TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: pw.FontWeight.bold),
-                                        ),
-                                      ),
-                                      pw.SizedBox(height: 10),
-                                      pw.Row(
-                                        mainAxisAlignment:
-                                            pw.MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          pw.Column(
-                                            crossAxisAlignment:
-                                                pw.CrossAxisAlignment.start,
-                                            children: [
-                                              pw.Text(
-                                                "MÊS DE REFERÊNCIA",
-                                                style: const pw.TextStyle(
-                                                  fontSize: 14,
-                                                  color: PdfColors.grey,
-                                                ),
-                                              ),
-                                              pw.Text(
-                                                "${monthEC.text.toUpperCase()}/${yaerEC.text}",
-                                                style: pw.TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        pw.FontWeight.bold),
-                                              ),
-                                            ],
-                                          ),
-                                          pw.Column(
-                                            mainAxisAlignment:
-                                                pw.MainAxisAlignment.end,
-                                            children: [
-                                              pw.Text(
-                                                "VALOR EM R\$",
-                                                style: const pw.TextStyle(
-                                                  fontSize: 14,
-                                                  color: PdfColors.grey,
-                                                ),
-                                              ),
-                                              pw.Text(
-                                                valueEC.text,
-                                                style: pw.TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        pw.FontWeight.bold),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                      pw.SizedBox(height: 20),
-                                      pw.Row(
-                                        mainAxisAlignment:
-                                            pw.MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          pw.Column(
-                                            crossAxisAlignment:
-                                                pw.CrossAxisAlignment.start,
-                                            children: [
-                                              pw.Text(
-                                                "Locatário(a):",
-                                                style: pw.TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        pw.FontWeight.bold),
-                                              ),
-                                              pw.Text(
-                                                tenantEC.text,
-                                                style: const pw.TextStyle(
-                                                  fontSize: 14,
-                                                  color: PdfColors.grey,
-                                                ),
-                                              ),
-                                              pw.Text(
-                                                "CPF ou CNPJ: ${documentTenantEC.text}",
-                                                style: const pw.TextStyle(
-                                                  fontSize: 14,
-                                                  color: PdfColors.grey,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          pw.Column(
-                                            crossAxisAlignment:
-                                                pw.CrossAxisAlignment.start,
-                                            children: [
-                                              pw.Text(
-                                                "Locador(a):",
-                                                style: pw.TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        pw.FontWeight.bold),
-                                              ),
-                                              pw.Text(
-                                                locatorEC.text,
-                                                style: const pw.TextStyle(
-                                                  fontSize: 14,
-                                                  color: PdfColors.grey,
-                                                ),
-                                              ),
-                                              pw.Text(
-                                                "CPF ou CNPJ: ${documentlocatortEC.text}",
-                                                style: const pw.TextStyle(
-                                                  fontSize: 14,
-                                                  color: PdfColors.grey,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                      pw.SizedBox(height: 20),
-                                      pw.Column(
-                                        crossAxisAlignment:
-                                            pw.CrossAxisAlignment.start,
-                                        children: [
-                                          pw.Text(
-                                            "ENDEREÇO DO IMÓVEL LOCADO:",
-                                            style: pw.TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: pw.FontWeight.bold,
-                                            ),
-                                          ),
-                                          pw.SizedBox(height: 5),
-                                          pw.Text(
-                                            "${streetEC.text}, ${numberEC.text} (${complementEC.text}), -  ${neighborhoodEC.text} - ${cityEC.text} - ${stateEC.text} CEP: ${zipCodeEC.text}",
-                                            style: const pw.TextStyle(
-                                              fontSize: 14,
-                                              color: PdfColors.grey,
-                                            ),
-                                          ),
-                                          pw.SizedBox(height: 5),
-                                          pw.Divider(color: PdfColors.grey),
-                                          pw.SizedBox(height: 5),
-                                        ],
-                                      ),
-                                    ],
-                                  );
-                                },
-                              ),
+                            final pdf = Pdf();
+                            final generate = await pdf.generatePdfDocument(
+                              month: monthEC.text,
+                              year: year,
+                              value: value,
+                              tenant: tenant,
+                              documentTenant: documentTenant,
+                              locator: locator,
+                              documentLocator: documentLocator,
+                              street: street,
+                              number: number,
+                              complement: complement,
+                              neighborhood: neighborhood,
+                              city: city,
+                              state: stateEC.text,
+                              zipCode: zipCode,
                             );
 
-                            var savedFile = await pdf.save();
-                            List<int> fileInts = List.from(savedFile);
-                            final date = DateTime.now();
-                            html.AnchorElement(
-                                href:
-                                    "data:application/octet-stream;charset=utf-16le;base64,${base64.encode(fileInts)}")
-                              ..setAttribute("download",
-                                  "recibo ${date.day}-${date.month}-${date.year}.pdf")
-                              ..click();
+                            pdf.savePdfFile(generate);
 
-                            // formReset();
+                            // // formReset();
                           }
                         },
                         child: const Text(
